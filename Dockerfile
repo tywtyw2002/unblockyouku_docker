@@ -3,10 +3,17 @@ MAINTAINER landon.wu@fetles.com
 
 RUN \
   apt-get update && \
-  apt-get install -y squid && \
+  apt-get install -y rsyslog && \
+  apt-get install -y supervisor && \
+  apt-get install -y squid python-pip && \
   rm -rf /var/lib/apt/lists/
 
-COPY etc/squid.conf /etc/squid3/squid.conf
+RUN \
+  pip install requests
+
+COPY files/etc/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY files/etc/squid.conf /etc/squid3/squid.conf
+COPY files/unblock /opt/unblock
 
 EXPOSE 8888
-ENTRYPOINT ["/usr/sbin/squid3", "-N"]
+CMD ["/usr/bin/supervisord"]

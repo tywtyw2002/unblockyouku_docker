@@ -1,0 +1,1 @@
+0 0 * * *   /opt/unblock/update_rules.sh /opt/unblock/crx_url_list.txt >> /var/log/cron.log 2>&1
